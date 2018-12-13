@@ -13,24 +13,24 @@ Excl_SDANTI_IDs = {'Sub113';};
     if ismember(subsname, Excl_SDPRO_IDs) %103
         %%ChoiceALL, ChoiceType_paramod, R16 (x3 SRPRO SRANTI SDANTI)        
         % SR AND SD
-        CoopVSDefect = [1 1 zeros(1,N) 1 1 zeros(1,N) 1 1 zeros(1,N) zeros(1,length(SPM.Sess))];
-        DefectVSCoop = [1 -1 zeros(1,N) 1 -1 zeros(1,N) 1 -1 zeros(1,N) zeros(1,length(SPM.Sess))];
+        CoopVSDefect = [0 1 zeros(1,N) 0 1 zeros(1,N) 0 1 zeros(1,N) zeros(1,length(SPM.Sess))];
+        DefectVSCoop = [0 -1 zeros(1,N) 0 -1 zeros(1,N) 0 -1 zeros(1,N) zeros(1,length(SPM.Sess))];
         ChoiceALLVSBaseline = [1 0 zeros(1,N) 1 0 zeros(1,N) 1 0 zeros(1,N) zeros(1,length(SPM.Sess))];
         
         %SR only 
-        CoopVSDefect_SR = [1 1 zeros(1,N) 1 1 zeros(1,N) 0 0 zeros(1,N) zeros(1, length(SPM.Sess))];
-        DefectVSCoop_SR = [1 -1 zeros(1,N) 1 -1 zeros(1,N) 0 0 zeros(1,N) zeros(1, length(SPM.Sess))];
+        CoopVSDefect_SR = [0 1 zeros(1,N) 0 1 zeros(1,N) 0 0 zeros(1,N) zeros(1, length(SPM.Sess))];
+        DefectVSCoop_SR = [0 -1 zeros(1,N) 0 -1 zeros(1,N) 0 0 zeros(1,N) zeros(1, length(SPM.Sess))];
         ChoiceALLVSBaseline_SR = [1 0 zeros(1,N) 1 0 zeros(1,N)  0 0 zeros(1, N) zeros(1, length(SPM.Sess))];
         
         %SD only 
-        CoopVSDefect_SD = [0 0 zeros(1,N) 0 0 zeros(1,N) 1 1 zeros(1,N) zeros(1, length(SPM.Sess))];
-        DefectVSCoop_SD = [0 0 zeros(1,N) 0 0 zeros(1,N) 1 -1 zeros(1,N) zeros(1, length(SPM.Sess))];
+        CoopVSDefect_SD = [0 0 zeros(1,N) 0 0 zeros(1,N) 0 1 zeros(1,N) zeros(1, length(SPM.Sess))];
+        DefectVSCoop_SD = [0 0 zeros(1,N) 0 0 zeros(1,N) 0 -1 zeros(1,N) zeros(1, length(SPM.Sess))];
         ChoiceALLVSBaseline_SD = [0 0 zeros(1, N) 0 0 zeros(1, N) 1 0 zeros(1,N) zeros(1, length(SPM.Sess))];
        
         %SR vs SD 
-        CoopVSDefect_SRvsSD = [1 1 zeros(1,N) 1 1 zeros(1,N) -1 1 zeros(1,N) zeros(1, length(SPM.Sess))];
-        DefectVSCoop_SRvsSD = [1 -1 zeros(1,N) 1 -1 zeros(1,N) -1 -1 zeros(1,N) zeros(1, length(SPM.Sess))];
-        ChoiceALLVSBaseline_SRvsSD = [1 0 zeros(1,N) 1 0 zeros(1,N) -1 0 zeros(1,N) zeros(1, length(SPM.Sess))];
+        %CoopVSDefect_SRvsSD = [1 1 zeros(1,N) 1 1 zeros(1,N) -1 1 zeros(1,N) zeros(1, length(SPM.Sess))];
+        %DefectVSCoop_SRvsSD = [1 -1 zeros(1,N) 1 -1 zeros(1,N) -1 -1 zeros(1,N) zeros(1, length(SPM.Sess))];
+        %ChoiceALLVSBaseline_SRvsSD = [1 0 zeros(1,N) 1 0 zeros(1,N) -1 0 zeros(1,N) zeros(1, length(SPM.Sess))];
         
         contrasts(1) = struct('names', {{...
             'CoopVSDefect'...
@@ -42,12 +42,10 @@ Excl_SDANTI_IDs = {'Sub113';};
             'CoopVSDefect_SD'...
             'DefectVSCoop_SD'...
             'ChoiceALLVSBaseline_SD'...
-            'CoopVSDefect_SRvsSD'...
-            'DefectVSCoop_SRvsSD'...
-            'ChoiceALLVSBaseline_SRvsSD'...
+            
                 }},...
-                'types', {{'T','T','T','T','T','T','T','T','T','T','T', 'T'}}, ...
-                'values',{{CoopVSDefect,DefectVSCoop,ChoiceALLVSBaseline,CoopVSDefect_SR,DefectVSCoop_SR,ChoiceALLVSBaseline_SR,CoopVSDefect_SD,DefectVSCoop_SD,ChoiceALLVSBaseline_SD, CoopVSDefect_SRvsSD, DefectVSCoop_SRvsSD, ChoiceALLVSBaseline_SRvsSD}} ...
+                'types', {{'T','T','T','T','T','T','T','T','T'}}, ...
+                'values',{{CoopVSDefect,DefectVSCoop,ChoiceALLVSBaseline,CoopVSDefect_SR,DefectVSCoop_SR,ChoiceALLVSBaseline_SR,CoopVSDefect_SD,DefectVSCoop_SD,ChoiceALLVSBaseline_SD}} ...
                 );
 
                 if isempty(SPM.xCon)
@@ -80,24 +78,24 @@ Excl_SDANTI_IDs = {'Sub113';};
     elseif ismember(subsname, Excl_SRANTI_IDs) %107, 118, 124
         %%ChoiceALL, ChoiceType_paramod, R16 (x3 for SR/SD PRO/ANTI)        
         % SR AND SD
-        CoopVSDefect = [1 1 zeros(1,N) 1 1 zeros(1,N) 1 1 zeros(1,N) zeros(1,length(SPM.Sess))];
-        DefectVSCoop = [1 -1 zeros(1,N) 1 -1 zeros(1,N) 1 -1 zeros(1,N) zeros(1,length(SPM.Sess))];
+        CoopVSDefect = [0 1 zeros(1,N) 0 1 zeros(1,N) 0 1 zeros(1,N) zeros(1,length(SPM.Sess))];
+        DefectVSCoop = [0 -1 zeros(1,N) 0 -1 zeros(1,N) 0 -1 zeros(1,N) zeros(1,length(SPM.Sess))];
         ChoiceALLVSBaseline = [1 0 zeros(1,N) 1 0 zeros(1,N) 1 0 zeros(1,N) zeros(1,length(SPM.Sess))];
         
         %SR only 
-        CoopVSDefect_SR = [1 1 zeros(1,N) 0 0 zeros(1,N) 0 0 zeros(1,N) zeros(1, length(SPM.Sess))];
-        DefectVSCoop_SR = [1 -1 zeros(1,N) 0 0 zeros(1,N) 0 0 zeros(1,N) zeros(1, length(SPM.Sess))];
+        CoopVSDefect_SR = [0 1 zeros(1,N) 0 0 zeros(1,N) 0 0 zeros(1,N) zeros(1, length(SPM.Sess))];
+        DefectVSCoop_SR = [0 -1 zeros(1,N) 0 0 zeros(1,N) 0 0 zeros(1,N) zeros(1, length(SPM.Sess))];
         ChoiceALLVSBaseline_SR = [1 0 zeros(1,N) 0 0 zeros(1, N) 0 0 zeros(1, N) zeros(1, length(SPM.Sess))];
         
         %SD only 
-        CoopVSDefect_SD = [0 0 zeros(1,N) 1 1 zeros(1,N) 1 1 zeros(1,N) zeros(1, length(SPM.Sess))];
-        DefectVSCoop_SD = [0 0 zeros(1,N) 1 -1 zeros(1,N) 1 -1 zeros(1,N) zeros(1, length(SPM.Sess))];
+        CoopVSDefect_SD = [0 0 zeros(1,N) 0 1 zeros(1,N) 0 1 zeros(1,N) zeros(1, length(SPM.Sess))];
+        DefectVSCoop_SD = [0 0 zeros(1,N) 0 -1 zeros(1,N) 0 -1 zeros(1,N) zeros(1, length(SPM.Sess))];
         ChoiceALLVSBaseline_SD = [0 0 zeros(1, N) 1 0 zeros(1,N) 1 0 zeros(1,N) zeros(1, length(SPM.Sess))];
        
         %SR vs SD 
-        CoopVSDefect_SRvsSD = [1 1 zeros(1,N) -1 1 zeros(1,N) -1 1 zeros(1,N) zeros(1, length(SPM.Sess))];
-        DefectVSCoop_SRvsSD = [1 -1 zeros(1,N) -1 -1 zeros(1,N) -1 -1 zeros(1,N) zeros(1, length(SPM.Sess))];
-        ChoiceALLVSBaseline_SRvsSD = [1 0 zeros(1,N) -1 0 zeros(1,N) -1 0 zeros(1,N)  zeros(1, length(SPM.Sess))];
+        %CoopVSDefect_SRvsSD = [1 1 zeros(1,N) -1 1 zeros(1,N) -1 1 zeros(1,N) zeros(1, length(SPM.Sess))];
+        %DefectVSCoop_SRvsSD = [1 -1 zeros(1,N) -1 -1 zeros(1,N) -1 -1 zeros(1,N) zeros(1, length(SPM.Sess))];
+        %ChoiceALLVSBaseline_SRvsSD = [1 0 zeros(1,N) -1 0 zeros(1,N) -1 0 zeros(1,N)  zeros(1, length(SPM.Sess))];
         
         contrasts(1) = struct('names', {{...
             'CoopVSDefect'...
@@ -109,12 +107,10 @@ Excl_SDANTI_IDs = {'Sub113';};
             'CoopVSDefect_SD'...
             'DefectVSCoop_SD'...
             'ChoiceALLVSBaseline_SD'...
-            'CoopVSDefect_SRvsSD'...
-            'DefectVSCoop_SRvsSD'...
-            'ChoiceALLVSBaseline_SRvsSD'...
+            
                 }},...
-                'types', {{'T','T','T','T','T','T','T','T','T','T','T', 'T'}}, ...
-                'values',{{CoopVSDefect,DefectVSCoop,ChoiceALLVSBaseline,CoopVSDefect_SR,DefectVSCoop_SR,ChoiceALLVSBaseline_SR,CoopVSDefect_SD,DefectVSCoop_SD,ChoiceALLVSBaseline_SD, CoopVSDefect_SRvsSD, DefectVSCoop_SRvsSD, ChoiceALLVSBaseline_SRvsSD}} ...
+                'types', {{'T','T','T','T','T','T','T','T','T'}}, ...
+                'values',{{CoopVSDefect,DefectVSCoop,ChoiceALLVSBaseline,CoopVSDefect_SR,DefectVSCoop_SR,ChoiceALLVSBaseline_SR,CoopVSDefect_SD,DefectVSCoop_SD,ChoiceALLVSBaseline_SD}} ...
                 );
 
                 if isempty(SPM.xCon)
@@ -147,24 +143,24 @@ Excl_SDANTI_IDs = {'Sub113';};
     elseif ismember(subsname, Excl_SRSDPRO_IDs) %112, 120, 122
         %%ChoiceALL, ChoiceType_paramod, R16 (x2 for SR/SD ANTI)        
         % SR AND SD
-        CoopVSDefect = [1 1 zeros(1,N) 1 1 zeros(1,N) zeros(1,length(SPM.Sess))];
-        DefectVSCoop = [1 -1 zeros(1,N) 1 -1 zeros(1,N) zeros(1,length(SPM.Sess))];
+        CoopVSDefect = [0 1 zeros(1,N) 0 1 zeros(1,N) zeros(1,length(SPM.Sess))];
+        DefectVSCoop = [0 -1 zeros(1,N) 0 -1 zeros(1,N) zeros(1,length(SPM.Sess))];
         ChoiceALLVSBaseline = [1 0 zeros(1,N) 1 0 zeros(1,N) zeros(1,length(SPM.Sess))];
         
         %SR only 
-        CoopVSDefect_SR = [1 1 zeros(1,N) 0 0 zeros(1,N) zeros(1, length(SPM.Sess))];
-        DefectVSCoop_SR = [1 -1 zeros(1,N) 0 0 zeros(1,N) zeros(1, length(SPM.Sess))];
+        CoopVSDefect_SR = [0 1 zeros(1,N) 0 0 zeros(1,N) zeros(1, length(SPM.Sess))];
+        DefectVSCoop_SR = [0 -1 zeros(1,N) 0 0 zeros(1,N) zeros(1, length(SPM.Sess))];
         ChoiceALLVSBaseline_SR = [1 0 zeros(1,N)  0 0 zeros(1, N) zeros(1, length(SPM.Sess))];
         
         %SD only 
-        CoopVSDefect_SD = [0 0 zeros(1,N) 1 1 zeros(1,N) zeros(1, length(SPM.Sess))];
-        DefectVSCoop_SD = [0 0 zeros(1,N) 1 -1 zeros(1,N) zeros(1, length(SPM.Sess))];
+        CoopVSDefect_SD = [0 0 zeros(1,N) 0 1 zeros(1,N) zeros(1, length(SPM.Sess))];
+        DefectVSCoop_SD = [0 0 zeros(1,N) 0 -1 zeros(1,N) zeros(1, length(SPM.Sess))];
         ChoiceALLVSBaseline_SD = [0 0 zeros(1, N) 1 0 zeros(1,N) zeros(1, length(SPM.Sess))];
        
         %SR vs SD 
-        CoopVSDefect_SRvsSD = [1 1 zeros(1,N) -1 1 zeros(1,N) zeros(1, length(SPM.Sess))];
-        DefectVSCoop_SRvsSD = [1 -1 zeros(1,N) -1 -1 zeros(1,N) zeros(1, length(SPM.Sess))];
-        ChoiceALLVSBaseline_SRvsSD = [1 0 zeros(1,N) -1 0 zeros(1,N)  zeros(1, length(SPM.Sess))];
+        %CoopVSDefect_SRvsSD = [1 1 zeros(1,N) -1 1 zeros(1,N) zeros(1, length(SPM.Sess))];
+        %DefectVSCoop_SRvsSD = [1 -1 zeros(1,N) -1 -1 zeros(1,N) zeros(1, length(SPM.Sess))];
+        %ChoiceALLVSBaseline_SRvsSD = [1 0 zeros(1,N) -1 0 zeros(1,N)  zeros(1, length(SPM.Sess))];
         
         contrasts(1) = struct('names', {{...
             'CoopVSDefect'...
@@ -176,12 +172,10 @@ Excl_SDANTI_IDs = {'Sub113';};
             'CoopVSDefect_SD'...
             'DefectVSCoop_SD'...
             'ChoiceALLVSBaseline_SD'...
-            'CoopVSDefect_SRvsSD'...
-            'DefectVSCoop_SRvsSD'...
-            'ChoiceALLVSBaseline_SRvsSD'...
+            
                 }},...
-                'types', {{'T','T','T','T','T','T','T','T','T','T','T', 'T'}}, ...
-                'values',{{CoopVSDefect,DefectVSCoop,ChoiceALLVSBaseline,CoopVSDefect_SR,DefectVSCoop_SR,ChoiceALLVSBaseline_SR,CoopVSDefect_SD,DefectVSCoop_SD,ChoiceALLVSBaseline_SD, CoopVSDefect_SRvsSD, DefectVSCoop_SRvsSD, ChoiceALLVSBaseline_SRvsSD}} ...
+                'types', {{'T','T','T','T','T','T','T','T','T'}}, ...
+                'values',{{CoopVSDefect,DefectVSCoop,ChoiceALLVSBaseline,CoopVSDefect_SR,DefectVSCoop_SR,ChoiceALLVSBaseline_SR,CoopVSDefect_SD,DefectVSCoop_SD,ChoiceALLVSBaseline_SD}} ...
                 );
 
                 if isempty(SPM.xCon)
@@ -214,24 +208,24 @@ Excl_SDANTI_IDs = {'Sub113';};
     elseif ismember(subsname, Excl_SRPRO_IDs) %123, 126
         %%ChoiceALL, ChoiceType_paramod, R16 (x3 for SRANTI SD PRO/ANTI)        
         % SR AND SD
-        CoopVSDefect = [1 1 zeros(1,N) 1 1 zeros(1,N) 1 1 zeros(1,N) zeros(1,length(SPM.Sess))];
-        DefectVSCoop = [1 -1 zeros(1,N) 1 -1 zeros(1,N) 1 -1 zeros(1,N) zeros(1,length(SPM.Sess))];
+        CoopVSDefect = [0 1 zeros(1,N) 0 1 zeros(1,N) 0 1 zeros(1,N) zeros(1,length(SPM.Sess))];
+        DefectVSCoop = [0 -1 zeros(1,N) 0 -1 zeros(1,N) 0 -1 zeros(1,N) zeros(1,length(SPM.Sess))];
         ChoiceALLVSBaseline = [1 0 zeros(1,N) 1 0 zeros(1,N) 1 0 zeros(1,N) zeros(1,length(SPM.Sess))];
         
         %SR only 
-        CoopVSDefect_SR = [1 1 zeros(1,N) 0 0 zeros(1,N) 0 0 zeros(1,N) zeros(1, length(SPM.Sess))];
-        DefectVSCoop_SR = [1 -1 zeros(1,N) 0 0 zeros(1,N) 0 0 zeros(1,N) zeros(1, length(SPM.Sess))];
+        CoopVSDefect_SR = [0 1 zeros(1,N) 0 0 zeros(1,N) 0 0 zeros(1,N) zeros(1, length(SPM.Sess))];
+        DefectVSCoop_SR = [0 -1 zeros(1,N) 0 0 zeros(1,N) 0 0 zeros(1,N) zeros(1, length(SPM.Sess))];
         ChoiceALLVSBaseline_SR = [1 0 zeros(1,N)  0 0 zeros(1, N) 0 0 zeros(1, N) zeros(1, length(SPM.Sess))];
         
         %SD only 
-        CoopVSDefect_SD = [0 0 zeros(1,N) 1 1 zeros(1,N) 1 1 zeros(1,N) zeros(1, length(SPM.Sess))];
-        DefectVSCoop_SD = [0 0 zeros(1,N) 1 -1 zeros(1,N) 1 -1 zeros(1,N) zeros(1, length(SPM.Sess))];
+        CoopVSDefect_SD = [0 0 zeros(1,N) 0 1 zeros(1,N) 0 1 zeros(1,N) zeros(1, length(SPM.Sess))];
+        DefectVSCoop_SD = [0 0 zeros(1,N) 0 -1 zeros(1,N) 0 -1 zeros(1,N) zeros(1, length(SPM.Sess))];
         ChoiceALLVSBaseline_SD = [0 0 zeros(1, N) 1 0 zeros(1,N) 1 0 zeros(1,N) zeros(1, length(SPM.Sess))];
        
         %SR vs SD 
-        CoopVSDefect_SRvsSD = [1 1 zeros(1,N) -1 1 zeros(1,N) -1 1 zeros(1,N) zeros(1, length(SPM.Sess))];
-        DefectVSCoop_SRvsSD = [1 -1 zeros(1,N) -1 -1 zeros(1,N) -1 -1 zeros(1,N) zeros(1, length(SPM.Sess))];
-        ChoiceALLVSBaseline_SRvsSD = [1 0 zeros(1,N) -1 0 zeros(1,N) -1 0 zeros(1,N)  zeros(1, length(SPM.Sess))];
+        %CoopVSDefect_SRvsSD = [1 1 zeros(1,N) -1 1 zeros(1,N) -1 1 zeros(1,N) zeros(1, length(SPM.Sess))];
+        %DefectVSCoop_SRvsSD = [1 -1 zeros(1,N) -1 -1 zeros(1,N) -1 -1 zeros(1,N) zeros(1, length(SPM.Sess))];
+        %ChoiceALLVSBaseline_SRvsSD = [1 0 zeros(1,N) -1 0 zeros(1,N) -1 0 zeros(1,N)  zeros(1, length(SPM.Sess))];
         
         contrasts(1) = struct('names', {{...
             'CoopVSDefect'...
@@ -243,12 +237,10 @@ Excl_SDANTI_IDs = {'Sub113';};
             'CoopVSDefect_SD'...
             'DefectVSCoop_SD'...
             'ChoiceALLVSBaseline_SD'...
-            'CoopVSDefect_SRvsSD'...
-            'DefectVSCoop_SRvsSD'...
-            'ChoiceALLVSBaseline_SRvsSD'...
+            
                 }},...
-                'types', {{'T','T','T','T','T','T','T','T','T','T','T', 'T'}}, ...
-                'values',{{CoopVSDefect,DefectVSCoop,ChoiceALLVSBaseline,CoopVSDefect_SR,DefectVSCoop_SR,ChoiceALLVSBaseline_SR,CoopVSDefect_SD,DefectVSCoop_SD,ChoiceALLVSBaseline_SD, CoopVSDefect_SRvsSD, DefectVSCoop_SRvsSD, ChoiceALLVSBaseline_SRvsSD}} ...
+                'types', {{'T','T','T','T','T','T','T','T','T'}}, ...
+                'values',{{CoopVSDefect,DefectVSCoop,ChoiceALLVSBaseline,CoopVSDefect_SR,DefectVSCoop_SR,ChoiceALLVSBaseline_SR,CoopVSDefect_SD,DefectVSCoop_SD,ChoiceALLVSBaseline_SD}} ...
                 );
 
                 if isempty(SPM.xCon)
@@ -281,24 +273,24 @@ Excl_SDANTI_IDs = {'Sub113';};
     elseif ismember(subsname, Excl_SDANTI_IDs) %113
         %%ChoiceALL, ChoiceType_paramod, R16 (x3 for SR PRO/ANTI SDPRO)        
         % SR AND SD
-        CoopVSDefect = [1 1 zeros(1,N) 1 1 zeros(1,N) 1 1 zeros(1,N) zeros(1,length(SPM.Sess))];
-        DefectVSCoop = [1 -1 zeros(1,N) 1 -1 zeros(1,N) 1 -1 zeros(1,N) zeros(1,length(SPM.Sess))];
+        CoopVSDefect = [0 1 zeros(1,N) 0 1 zeros(1,N) 0 1 zeros(1,N) zeros(1,length(SPM.Sess))];
+        DefectVSCoop = [0 -1 zeros(1,N) 0 -1 zeros(1,N) 0 -1 zeros(1,N) zeros(1,length(SPM.Sess))];
         ChoiceALLVSBaseline = [1 0 zeros(1,N) 1 0 zeros(1,N) 1 0 zeros(1,N) zeros(1,length(SPM.Sess))];
         
         %SR only 
-        CoopVSDefect_SR = [1 1 zeros(1,N) 1 1 zeros(1,N) 0 0 zeros(1,N) zeros(1, length(SPM.Sess))];
-        DefectVSCoop_SR = [1 -1 zeros(1,N) 1 -1 zeros(1,N) 0 0 zeros(1,N) zeros(1, length(SPM.Sess))];
+        CoopVSDefect_SR = [0 1 zeros(1,N) 0 1 zeros(1,N) 0 0 zeros(1,N) zeros(1, length(SPM.Sess))];
+        DefectVSCoop_SR = [0 -1 zeros(1,N) 0 -1 zeros(1,N) 0 0 zeros(1,N) zeros(1, length(SPM.Sess))];
         ChoiceALLVSBaseline_SR = [1 0 zeros(1,N) 1 0 zeros(1,N) 0 0 zeros(1, N) zeros(1, length(SPM.Sess))];
         
         %SD only 
-        CoopVSDefect_SD = [0 0 zeros(1,N) 0 0 zeros(1,N) 1 1 zeros(1,N) zeros(1, length(SPM.Sess))];
-        DefectVSCoop_SD = [0 0 zeros(1,N) 0 0 zeros(1,N) 1 -1 zeros(1,N) zeros(1, length(SPM.Sess))];
+        CoopVSDefect_SD = [0 0 zeros(1,N) 0 0 zeros(1,N) 0 1 zeros(1,N) zeros(1, length(SPM.Sess))];
+        DefectVSCoop_SD = [0 0 zeros(1,N) 0 0 zeros(1,N) 0 -1 zeros(1,N) zeros(1, length(SPM.Sess))];
         ChoiceALLVSBaseline_SD = [0 0 zeros(1, N) 0 0 zeros(1, N) 1 0 zeros(1,N) zeros(1, length(SPM.Sess))];
        
         %SR vs SD 
-        CoopVSDefect_SRvsSD = [1 1 zeros(1,N) 1 1 zeros(1,N) -1 1 zeros(1,N) zeros(1, length(SPM.Sess))];
-        DefectVSCoop_SRvsSD = [1 -1 zeros(1,N) 1 -1 zeros(1,N) -1 -1 zeros(1,N) zeros(1, length(SPM.Sess))];
-        ChoiceALLVSBaseline_SRvsSD = [1 0 zeros(1,N) 1 0 zeros(1,N) -1 0 zeros(1,N)  zeros(1, length(SPM.Sess))];
+        %CoopVSDefect_SRvsSD = [1 1 zeros(1,N) 1 1 zeros(1,N) -1 1 zeros(1,N) zeros(1, length(SPM.Sess))];
+        %DefectVSCoop_SRvsSD = [1 -1 zeros(1,N) 1 -1 zeros(1,N) -1 -1 zeros(1,N) zeros(1, length(SPM.Sess))];
+        %ChoiceALLVSBaseline_SRvsSD = [1 0 zeros(1,N) 1 0 zeros(1,N) -1 0 zeros(1,N)  zeros(1, length(SPM.Sess))];
         
         contrasts(1) = struct('names', {{...
             'CoopVSDefect'...
@@ -310,12 +302,10 @@ Excl_SDANTI_IDs = {'Sub113';};
             'CoopVSDefect_SD'...
             'DefectVSCoop_SD'...
             'ChoiceALLVSBaseline_SD'...
-            'CoopVSDefect_SRvsSD'...
-            'DefectVSCoop_SRvsSD'...
-            'ChoiceALLVSBaseline_SRvsSD'...
+            
                 }},...
-                'types', {{'T','T','T','T','T','T','T','T','T','T','T', 'T'}}, ...
-                'values',{{CoopVSDefect,DefectVSCoop,ChoiceALLVSBaseline,CoopVSDefect_SR,DefectVSCoop_SR,ChoiceALLVSBaseline_SR,CoopVSDefect_SD,DefectVSCoop_SD,ChoiceALLVSBaseline_SD, CoopVSDefect_SRvsSD, DefectVSCoop_SRvsSD, ChoiceALLVSBaseline_SRvsSD}} ...
+                'types', {{'T','T','T','T','T','T','T','T','T'}}, ...
+                'values',{{CoopVSDefect,DefectVSCoop,ChoiceALLVSBaseline,CoopVSDefect_SR,DefectVSCoop_SR,ChoiceALLVSBaseline_SR,CoopVSDefect_SD,DefectVSCoop_SD,ChoiceALLVSBaseline_SD}} ...
                 );
 
                 if isempty(SPM.xCon)
@@ -378,12 +368,10 @@ Excl_SDANTI_IDs = {'Sub113';};
             'CoopVSDefect_SD'...
             'DefectVSCoop_SD'...
             'ChoiceALLVSBaseline_SD'...
-            'CoopVSDefect_SRvsSD'...
-            'DefectVSCoop_SRvsSD'...
-            'ChoiceALLVSBaseline_SRvsSD'...
+            
                 }},...
-                'types', {{'T','T','T','T','T','T','T','T','T','T','T', 'T'}}, ...
-                'values',{{CoopVSDefect,DefectVSCoop,ChoiceALLVSBaseline,CoopVSDefect_SR,DefectVSCoop_SR,ChoiceALLVSBaseline_SR,CoopVSDefect_SD,DefectVSCoop_SD,ChoiceALLVSBaseline_SD, CoopVSDefect_SRvsSD, DefectVSCoop_SRvsSD, ChoiceALLVSBaseline_SRvsSD}} ...
+                'types', {{'T','T','T','T','T','T','T','T','T'}}, ...
+                'values',{{CoopVSDefect,DefectVSCoop,ChoiceALLVSBaseline,CoopVSDefect_SR,DefectVSCoop_SR,ChoiceALLVSBaseline_SR,CoopVSDefect_SD,DefectVSCoop_SD,ChoiceALLVSBaseline_SD}} ...
                 );
 
                 if isempty(SPM.xCon)

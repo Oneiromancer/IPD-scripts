@@ -7,8 +7,8 @@ session_name='IPD';
 sess='SR';
 
 OUTPUT_FLDR=['E:\AdamData\SANS Data\2ND LEVELS\IPD\Choice_Models\monochoice_basic'];
-dataFolders={'CoopVSDefect', 'DefectVSCoop','ChoiceALLVSBaseline', 'CoopVSDefect_SR', 'DefectVSCoop_SR', 'ChoiceALLVSBaseline_SR','CoopVSDefect_SD', 'DefectVSCoop_SD', 'ChoiceALLVSBaseline_SD', 'CoopVSDefect_SRvsSD', 'DefectVSCoop_SRvsSD', 'ChoiceALLVSBaseline_SRvsSD',};
-ConNum={'01','02','03','04','05','06','07','08','09', '10', '11', '12'};
+dataFolders={'CoopVSDefect', 'DefectVSCoop','ChoiceALLVSBaseline', 'CoopVSDefect_SR', 'DefectVSCoop_SR', 'ChoiceALLVSBaseline_SR','CoopVSDefect_SD', 'DefectVSCoop_SD', 'ChoiceALLVSBaseline_SD'};
+ConNum={'01','02','03','04','05','06','07','08','09'};
 
 
 for i=1:length(subsname)

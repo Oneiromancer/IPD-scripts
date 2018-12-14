@@ -29,8 +29,8 @@ for i=1:length(IDs)
     subsname = dir(IDs{i});
     
     %dealing out UniqueIDs
-    if ismember(subsname.name, Excl_SDPRO_IDs) 
-        spm_analysis_103_1st_level_IPD_2sessions_addcompcor
+    if ismember(subsname.name, Excl_SDPRO_IDs) %END for this statement needs fixing. 
+        %spm_analysis_103_1st_level_IPD_2sessions_monochoice_ajk;
     elseif ismember(subsname.name, Excl_SRANTI_IDs)
         %spm_analysis_107_118_124_1st_level_IPD_2sessions_monochoice_ajk
     elseif ismember(subsname.name, Excl_SRSDPRO_IDs)
@@ -181,8 +181,8 @@ for i=1:length(IDs)
    
    
    
-                     end
                 end
+                 end
             %end ajk comment
 %% Add personalized condition onset
      %do SR  
@@ -315,8 +315,7 @@ for i=1:length(IDs)
           FLAG=0;
       end
    end
-            end
-         end
+     end
     
          
          %% creating the SPM with the model
@@ -347,13 +346,11 @@ if FLAG
             cd(outpath)
             load([outpath 'SPM.mat'])
            %SPM=add_contrasts_IPD_2sessions_CHOICE_rt_paramod(SPM,16);
-           SPM=add_contrasts_IPD_2sessions_bichoice_basic(SPM, size(R,2), subsname(1,1).name);
+           SPM=add_contrasts_IPD_2sessions_CHOICE(SPM,16);
         else
             disp('Contrasts already exist!');
         end
 end
-clear SPM;
-    end
     
     
 end

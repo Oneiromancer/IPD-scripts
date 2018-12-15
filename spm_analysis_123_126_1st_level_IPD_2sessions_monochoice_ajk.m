@@ -128,11 +128,11 @@ for i=1:length(IDs)
                                 end
                                 
                             else %only SR ANTI for 123,126
-                                if run==1 %SR PRO
-                                    wm=dir(['SR_WM_run' num2str(1) '_5PCs.mat']);
+                                if run==1 %SR ANTI
+                                    wm=dir(['SR_WM_run' num2str(2) '_5PCs.mat']);
                                     load(wm.name)
                                     R=[R PCs];
-                                    cs= dir(['SR_CSF_run' num2str(1) '_5PCs.mat']);
+                                    cs= dir(['SR_CSF_run' num2str(2) '_5PCs.mat']);
                                     load(cs.name);
                                     R=[R PCs];
                                 end

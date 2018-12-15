@@ -1,7 +1,7 @@
 %Make 1st Level for IPD 
 %files are already repaired, smoothed, normalized. 
 %add durations and add to templates
-%bichoice_basic model - basic (no RT) exclude SR-ANTI
+%bichoice_basic model - basic (no RT) exclude SR-PRO (Subs 123, 126)
 
 clear all; close all;
 TemplateFolder=('E:\spm8_templates_sleep');
@@ -13,7 +13,7 @@ cd(subjdir)
 %All_IDs = {'Sub102*'; 'Sub103*'; 'Sub104*'; 'Sub105*'; 'Sub106*'; 'Sub107*';  'Sub108*'; 'Sub112*'; 'Sub113*';   'Sub114*'; 'Sub115*'; 'Sub117*'; 'Sub118*';  'Sub119*'; 'Sub120*';  'Sub121*'; 'Sub122*'; 'Sub123*'; 'Sub124*';'Sub126*';'Sub128*';};
 %FullModel_IDs = {'Sub102*'; 'Sub104*'; 'Sub105*'; 'Sub106*'; 'Sub108*'; 'Sub114*'; 'Sub115*'; 'Sub117*'; 'Sub119*'; 'Sub121*'; 'Sub128*';};
 %UniqueModel_IDs = {'Sub103';'Sub107*';'Sub112*';'Sub113*';'Sub118*';'Sub120*';'Sub122*';'Sub123*';'Sub124*';'Sub126*';};
-IDs = {'Sub107*';'Sub118*';'Sub124*';}; %hard coded for this script
+IDs = {'Sub123*';'Sub126*'}; %hard coded for this script
 session_name='IPD';
 
 FLAG=0;
@@ -39,7 +39,7 @@ for i=1:length(IDs)
          if isempty(dir([outpath 'SPM.mat']));
              cd(TemplateFolder) %need templates for unique subjs 
              
-                load 107_118_124_1st_level_IPD_Choice_SRSD_joint_analysis
+                load 123_126_1st_level_IPD_Choice_SRSD_joint_analysis
             
                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(1,1).scans=''; %clear previous files
                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(1,1).multi_reg='';
@@ -62,17 +62,17 @@ for i=1:length(IDs)
             
             if FLAG
                 %total_runs=length(session_fold)+length(session_fold_SD);
-                total_runs = 3; %excludes SRANTI
+                total_runs = 3; %123,126 SR1-PRO
                 SD_ind=1;SD_flag=0;
                 
                      for run=1:total_runs %loop across task runs 
-                         %SR1-PRO
-                        if run==1 && (strcmp(session_fold(run,1).name(1:4),'run_'))%only go to epi folders
-                            file_path=([open_path '\' session_fold(run,1).name '\new_realign\']);
+                         %SR1-ANTI
+                        if run==1 && (strcmp(session_fold(run+1,1).name(1:4),'run_'))%only go to epi folders
+                            file_path=([open_path '\' session_fold(run+1,1).name '\new_realign\']); %ajk edited run+2 to go to ANTI folder for SR_run1
                             d=dir([file_path '\swvra*.nii']);    %load file names of files for preprocessing
                             Rpath=file_path;  
                             
-                         elseif run>=2 && (strcmp(session_fold_SD(SD_ind,1).name(1:4),'run_')) %exclude SR2 for 107, 118, 124
+                         elseif run>=2 && (strcmp(session_fold_SD(SD_ind,1).name(1:4),'run_'))
                              file_path=([SD_path '\' session_fold_SD(SD_ind,1).name '\new_realign\']);
                              
                              d=dir([file_path '\swvra*.nii']);    %load file names of files for preprocessing
@@ -127,14 +127,12 @@ for i=1:length(IDs)
                                     R=[R PCs];
                                 end
                                 
-                            else %only SR PRO for 107, 118, 124
-                                if run==2; %if SR ANTI (skip)
-                                    disp('...Skipping SR ANTI physio...')
-                                elseif run==1 %SR PRO
-                                    wm=dir(['SR_WM_run' num2str(1) '_5PCs.mat']);
+                            else %only SR ANTI for 123,126
+                                if run==1 %SR ANTI
+                                    wm=dir(['SR_WM_run' num2str(2) '_5PCs.mat']);
                                     load(wm.name)
                                     R=[R PCs];
-                                    cs= dir(['SR_CSF_run' num2str(1) '_5PCs.mat']);
+                                    cs= dir(['SR_CSF_run' num2str(2) '_5PCs.mat']);
                                     load(cs.name);
                                     R=[R PCs];
                                 end
@@ -167,18 +165,37 @@ for i=1:length(IDs)
        cd ../../Behavior/onsets_durations/IPD; %up 2 levels to find BEHAVIOR
        load('SR_IPD_onsets_durations_file.mat');
        if FLAG
-           if run==1 %SR PRO
+%            if run==1 %SR PRO
+%                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).onset=' ';
+%                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).duration=' ';
+%                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(1,1).cond(1).pmod.param=' ';
+% 
+%                 
+%                 %Choice [PRO(coop); PRO(defect)]
+%                 if ~isnan([SR_PRO_onsets{1}; SR_PRO_onsets{2}]);
+%                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).onset= [SR_PRO_onsets{1};SR_PRO_onsets{2}];
+%                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).duration= 6;
+%                     %ChoiceType ParaMod vector 
+%                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).pmod.param=[ones(length(SR_PRO_onsets{1}),1); -1*ones(length(SR_PRO_onsets{2}),1)];
+%                 else
+%                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).onset= NaN(1,1);
+%                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).duration= 6;
+%                 end;                
+% %                   
+%                 run = run+1;
+%            end
+           %exclude for 107, 118, 124, exclude SR ANTI
+           if run==1 %SR anti
                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).onset=' '; %Coop
                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(2).onset=' '; %Defect
                
                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).duration=' ';
                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(2).duration=' ';
 
-
                 
                 %CoopChoice onsets/durations
-                if ~isnan(SR_PRO_onsets{1})
-                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).onset= SR_PRO_onsets{1};
+                if ~isnan(SR_ANTI_onsets{1})
+                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).onset= SR_ANTI_onsets{1};
                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).duration= 6;
                 else
                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).onset= NaN(1,1);
@@ -186,48 +203,25 @@ for i=1:length(IDs)
                 end;                
                
                %DefectChoice onsets/durations
-                if ~isnan(SR_PRO_onsets{2})
-                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(2).onset= SR_PRO_onsets{2};
+                if ~isnan(SR_ANTI_onsets{2})
+                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(2).onset= SR_ANTI_onsets{2};
                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(2).duration= 6;
                 else
                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(2).onset= nan(1,1);
                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(2).duration= 6;
-                end                    
-%                   
+                end   
+                
                 run = run+1;
            end
-           %exclude for 107, 118, 124, exclude SR ANTI
-%            if run==2 %SR anti
-%                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).onset=' ';
-%                 
-%                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).duration=' ';
-%                 
-%                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).pmod.param=' ';
-% 
-%                 
-%                 %monoChoice onsets/durations [ANTI(coop); ANTI(defect)]
-%                 if ~isnan([SR_ANTI_onsets{1}; SR_ANTI_onsets{2}]);
-%                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).onset= [SR_ANTI_onsets{1}; SR_ANTI_onsets{2}];
-%                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).duration= 6;
-%                     %ChoiceType ParaMod vector 
-%                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).pmod.param=[ones(length(SR_ANTI_onsets{1}),1); -1*ones(length(SR_ANTI_onsets{2}),1)];
-%                 else
-%                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).onset= nan(1,1);
-%                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).duration= 6;
-%                 end
-%                 
-%                 run = run+1;
-%            end
            
            cd(SD_path);
            cd ../../Behavior/onsets_durations/IPD;
            load('SD_IPD_onsets_durations_file.mat')
-if run==2 %SD PRO - for 107, 118, 124
+if run==2 %SD PRO - for 123,126
                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).onset=' ';
                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(2).onset=' ';
                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).duration=' ';
                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(2).duration=' ';
-
                 
                 %CoopChoice onsets/durations
                 if ~isnan(SD_PRO_onsets{1})
@@ -246,14 +240,13 @@ if run==2 %SD PRO - for 107, 118, 124
                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(2).onset= nan(1,1);
                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(2).duration= 6;
                 end
-                run = run+1; 
+                run = run+1;
 end
-if run==3 %SD ANTI %run 3 for 107, 118, 124
+if run==3 %SD ANTI %run 3 for 123,126
                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(1).onset=' ';
                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(2).onset=' ';
                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(1).duration=' ';
                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(2).duration=' ';
-
 
                 
                 %CoopChoice onsets/durations
@@ -316,7 +309,7 @@ if FLAG
         else
             disp('Contrasts already exist!');
         end
-    end
+end
     clear SPM;
     
 end

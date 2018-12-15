@@ -131,10 +131,10 @@ for i=1:length(IDs)
                                 if run==2; %if SR ANTI (skip)
                                     disp('...Skipping SR ANTI physio...')
                                 elseif run==1 %SR PRO
-                                    wm=dir(['SR_WM_run' num2str(run) '_5PCs.mat']);
+                                    wm=dir(['SR_WM_run' num2str(1) '_5PCs.mat']);
                                     load(wm.name)
                                     R=[R PCs];
-                                    cs= dir(['SR_CSF_run' num2str(run) '_5PCs.mat']);
+                                    cs= dir(['SR_CSF_run' num2str(1) '_5PCs.mat']);
                                     load(cs.name);
                                     R=[R PCs];
                                 end

@@ -21,8 +21,8 @@ Excl_SRPRO_IDs = {'Sub123';'Sub126';};
 Excl_SDANTI_IDs = {'Sub113';};
 
 %run in this batch: 
-%IDs = {'Sub102*'; 'Sub103*'; 'Sub104*'; 'Sub105*'; 'Sub106*'; 'Sub107*';  'Sub108*'; 'Sub112*'; 'Sub113*';   'Sub114*'; 'Sub115*'; 'Sub117*'; 'Sub118*';  'Sub119*'; 'Sub120*';  'Sub121*'; 'Sub122*'; 'Sub123*'; 'Sub124*';'Sub126*';'Sub128*';};
-IDs = {'Sub123*'}; % < !!! copy me below as well !!!
+IDs = {'Sub102*'; 'Sub103*'; 'Sub104*'; 'Sub105*'; 'Sub106*'; 'Sub107*';  'Sub108*'; 'Sub112*'; 'Sub113*';   'Sub114*'; 'Sub115*'; 'Sub117*'; 'Sub118*';  'Sub119*'; 'Sub120*';  'Sub121*'; 'Sub122*'; 'Sub123*'; 'Sub124*';'Sub126*';'Sub128*';};
+%IDs = {'Sub102*'}; % < !!! copy me below as well !!!
 session_name='IPD';
 
 FLAG=0;
@@ -30,7 +30,7 @@ FLAG=0;
 for i=1:length(IDs)
     %ajk edit, adding in IDs to keep index (i) accurate when calling
     %outside scripts. 
-    IDs = {'Sub123*'};
+    IDs = {'Sub102*'; 'Sub103*'; 'Sub104*'; 'Sub105*'; 'Sub106*'; 'Sub107*';  'Sub108*'; 'Sub112*'; 'Sub113*';   'Sub114*'; 'Sub115*'; 'Sub117*'; 'Sub118*';  'Sub119*'; 'Sub120*';  'Sub121*'; 'Sub122*'; 'Sub123*'; 'Sub124*';'Sub126*';'Sub128*';};
     Excl_SDPRO_IDs = {'Sub103'};
     Excl_SRANTI_IDs = {'Sub107';'Sub118';'Sub124';};
     Excl_SRSDPRO_IDs = {'Sub112';'Sub120';'Sub122';};
@@ -243,7 +243,7 @@ for i=1:length(IDs)
            cd(SD_path);
            cd ../../Behavior/onsets_durations/IPD;
            load('SD_IPD_onsets_durations_file.mat')
-if run==3 %SD PRO
+        if run==3 %SD PRO
                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(1).onset=' ';
                 %matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(2).onset=' ';
 %                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(3).onset=' ';
@@ -300,7 +300,7 @@ if run==4 %SD ANTI
                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(4).cond(1).duration= 6;
                 end
                 
-end
+            end
        end
    end
    

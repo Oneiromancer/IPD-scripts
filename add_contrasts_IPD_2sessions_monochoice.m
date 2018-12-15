@@ -1,5 +1,4 @@
-function SPM=add_contrasts_IPD_2sessions(SPM,N, subsname)
-%% Add contrasts for conservative/basic CHOICE model
+function SPM=add_contrasts_IPD_2sessions_monochoice_basic(SPM,N, subsname)
 Excl_SDPRO_IDs = {'Sub103'};
 Excl_SRANTI_IDs = {'Sub107';'Sub118';'Sub124';};
 Excl_SRSDPRO_IDs = {'Sub112';'Sub120';'Sub122';};

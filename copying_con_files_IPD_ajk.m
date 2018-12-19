@@ -6,9 +6,15 @@ subsname=dir('Sub*');
 session_name='IPD';
 sess='SR';
 
-OUTPUT_FLDR=['E:\AdamData\SANS Data\2ND LEVELS\IPD\Choice_Models\monochoice_basic'];
+OUTPUT_FLDR=['E:\AdamData\SANS Data\2ND LEVELS\IPD\Choice_Models\Monochoice_basic_model'];
+%monochoice basic:
 dataFolders={'CoopVSDefect', 'DefectVSCoop','ChoiceALLVSBaseline', 'CoopVSDefect_SR', 'DefectVSCoop_SR', 'ChoiceALLVSBaseline_SR','CoopVSDefect_SD', 'DefectVSCoop_SD', 'ChoiceALLVSBaseline_SD'};
 ConNum={'01','02','03','04','05','06','07','08','09'};
+
+%bichoice basic:
+%dataFolders = {'CoopVSDefect','DefectVSCoop','ChoiceALLVSBaseline','CoopVSDefect_SR','DefectVSCoop_SR','ChoiceALLVSBaseline_SR','CoopVSDefect_SD','DefectVSCoop_SD','ChoiceALLVSBaseline_SD', 'CoopVSBaseline', 'DefectVSBaseline', 'CoopVSBaseline_SR', 'DefectVSBaseline_SR', 'CoopVSBaseline_SD', 'DefectVSBaseline_SD'};
+%ConNum={'01','02','03','04','05','06','07','08','09','10','11','12','13','14','15'};
+
 
 
 for i=1:length(subsname)

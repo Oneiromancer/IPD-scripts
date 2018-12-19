@@ -1,3 +1,4 @@
+%BICHOICE BASIC
 %Make 1st Level for IPD 
 %files are already repaired, smoothed, normalized. 
 %add durations and add to templates
@@ -9,7 +10,7 @@ sess='SR';
 %subject folders
 cd(subjdir)
 % subsname=dir('Sub124*');
- IDs = {'Sub102*'; 'Sub104*'; 'Sub105*'; 'Sub106*'; 'Sub108*'; 'Sub114*'; 'Sub115*'; 'Sub117*'; 'Sub119*'; 'Sub121*'; 'Sub128*';};
+ IDs = {'Sub102*'; 'Sub103*'; 'Sub104*'; 'Sub105*'; 'Sub106*'; 'Sub107*'; 'Sub108*'; 'Sub112*'; 'Sub113*'; 'Sub114*'; 'Sub115*'; 'Sub117*'; 'Sub118*'; 'Sub119*'; 'Sub120*';'Sub121*'; 'Sub122*'; 'Sub123*'; 'Sub124*'; 'Sub126*'; 'Sub128*';};
 %IDs = {'Sub106*';'Sub108*';'Sub114*';'Sub115*';'Sub119*';'Sub121*';};
 session_name='IPD';
 Excl_SDPRO_IDs = {'Sub103'};
@@ -25,20 +26,25 @@ FLAG=0;
 
 for i=1:length(IDs)
     cd(subjdir)
-    IDs = {'Sub102*'; 'Sub104*'; 'Sub105*'; 'Sub106*'; 'Sub108*'; 'Sub114*'; 'Sub115*'; 'Sub117*'; 'Sub119*'; 'Sub121*'; 'Sub128*';};
+     IDs = {'Sub102*'; 'Sub103*'; 'Sub104*'; 'Sub105*'; 'Sub106*'; 'Sub107*'; 'Sub108*'; 'Sub112*'; 'Sub113*'; 'Sub114*'; 'Sub115*'; 'Sub117*'; 'Sub118*'; 'Sub119*'; 'Sub120*';'Sub121*'; 'Sub122*'; 'Sub123*'; 'Sub124*'; 'Sub126*'; 'Sub128*';};
+    Excl_SDPRO_IDs = {'Sub103'};
+    Excl_SRANTI_IDs = {'Sub107';'Sub118';'Sub124';};
+    Excl_SRSDPRO_IDs = {'Sub112';'Sub120';'Sub122';};
+    Excl_SRPRO_IDs = {'Sub123';'Sub126';};
+    Excl_SDANTI_IDs = {'Sub113';};
     subsname = dir(IDs{i});
     
     %dealing out UniqueIDs
     if ismember(subsname.name, Excl_SDPRO_IDs) 
         spm_analysis_103_1st_level_IPD_2sessions_addcompcor
     elseif ismember(subsname.name, Excl_SRANTI_IDs)
-        %spm_analysis_107_118_124_1st_level_IPD_2sessions_monochoice_ajk
+        spm_analysis_107_118_124_1st_level_IPD_2sessions_addcompcor
     elseif ismember(subsname.name, Excl_SRSDPRO_IDs)
-        %spm_analysis_112_120_122_1st_level_IPD_2sessions_monochoice_ajk
+        spm_analysis_112_120_122_1st_level_IPD_2sessions_addcompcor
     elseif ismember(subsname.name, Excl_SRPRO_IDs)
-        %spm_analysis_123_126_1st_level_IPD_2sessions_monochoice_ajk
+        spm_analysis_123_126_1st_level_IPD_2sessions_addcompcor 
     elseif ismember(subsname.name, Excl_SDANTI_IDs)
-        %spm_analysis_113_1st_level_IPD_2sessions_monochoice_ajk
+        spm_analysis_113_1st_level_IPD_2sessions_addcompcor
     else %do regular 4 runs script below:     
     
      if (strcmp(subsname(1,1).name(1:3),'Sub') && subsname(1,1).isdir==1)  

@@ -1,7 +1,7 @@
 %Make 1st Level for IPD 
 %files are already repaired, smoothed, normalized. 
 %add durations and add to templates
-%bichoice_basic model - basic (no RT) for 103 (SRPRO SRANTI SDANTI)
+%monochoice model - with RT for choice duration for 103 (SRPRO SRANTI SDANTI)
 
 clear all; close all;
 TemplateFolder=('E:\spm8_templates_sleep');
@@ -28,7 +28,7 @@ for i=1:length(IDs)
 
          
          cd(open_path);         
-         new_fold='1st_level_analysis_biChoice_2sessions_VariableDur'; %include R_16 by default
+         new_fold='1st_level_analysis_Choice_2sessions_monochoice_RT';
          if ~isdir([open_path '\' new_fold])
             mkdir(new_fold)
          end
@@ -40,7 +40,7 @@ for i=1:length(IDs)
          if isempty(dir([outpath 'SPM.mat']));
              cd(TemplateFolder) %need templates for unique subjs 
              
-                load 103_1st_level_IPD_Choice_SRSD_joint_analysis_VariableDur  
+                load 103_1st_level_IPD_Choice_SRSD_joint_analysis_monoChoice_RT  
             
                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(1,1).scans=''; %clear previous files
                 matlabbatch{1,1}.spm.stats.fmri_spec.sess(1,1).multi_reg='';
@@ -111,7 +111,7 @@ for i=1:length(IDs)
                             end
                             cd(physio_path);
                             if SD_flag
-                                if run==3; %103-SD ANTI
+                                if run==3; %103-SR ANTI
                                     wm=dir(['SD_WM_run' num2str(2) '_5PCs.mat']);
                                     load(wm.name)
                                     R=[R PCs];
@@ -155,79 +155,43 @@ for i=1:length(IDs)
        cd(open_path);
        cd ../../Behavior/onsets_durations/IPD; %up 2 levels to find BEHAVIOR
        load('SR_IPD_onsets_durations_file.mat');
-       %load durations based on ChoiceRT
-       %SR
-       %SR PRO,ANTI
-        filename_coop_run_1 = dir('*SR*PRO*Coop_RT.csv');
-        filename_coop_run_2 = dir('*SR*ANTI*Coop_RT.csv');
-
-        filename_defect_run_1 = dir('*SR*PRO*Defect_RT.csv');
-        filename_defect_run_2 = dir('*SR*ANTI*Defect_RT.csv');
-
-        SR_run_001_Coop_RTs = csvread(filename_coop_run_1.name,0,1);
-        SR_run_002_Coop_RTs = csvread(filename_coop_run_2.name,0,1);
-
-        SR_run_001_Defect_RTs = csvread(filename_defect_run_1.name,0,1);
-        SR_run_002_Defect_RTs = csvread(filename_defect_run_2.name,0,1);
        if FLAG
            if run==1 %SR PRO
-               matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).onset=' '; %Coop
-               matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(2).onset=' '; %Defect
-               
-               matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).duration=' ';
-               matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(2).duration=' ';
+                matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).onset=' ';
+                matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).duration=' ';
+                matlabbatch{1,1}.spm.stats.fmri_spec.sess(1,1).cond(1).pmod.param=' ';
 
                 
-                %CoopChoice onsets/durations
-                if ~isnan(SR_PRO_onsets{1})
-                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).onset= SR_PRO_onsets{1};
+                %Choice [PRO(coop); PRO(defect)]
+                if ~isnan([SR_PRO_onsets{1}; SR_PRO_onsets{2}]);
+                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).onset= [SR_PRO_onsets{1};SR_PRO_onsets{2}];
                     %matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).duration= 6;
-                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).duration = SR_run_001_Coop_RTs;
+                    %ChoiceType ParaMod vector 
+                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).pmod.param=[ones(length(SR_PRO_onsets{1}),1); -1*ones(length(SR_PRO_onsets{2}),1)];
                 else
                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).onset= NaN(1,1);
                     %matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).duration= 6;
                 end;                
-               
-               %DefectChoice onsets/durations
-                if ~isnan(SR_PRO_onsets{2})
-                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(2).onset= SR_PRO_onsets{2};
-                    %matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(2).duration= 6;
-                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(2).duration= SR_run_001_Defect_RTs;
-                else
-                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(2).onset= nan(1,1);
-                    %matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(2).duration= 6;
-                end    
-                
+%                   
                 run = run+1;
-           
            end
-
            if run==2 %SR anti
-               matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).onset=' ';
-               matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(2).onset=' ';
-               
-               matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).duration=' ';
-               matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(2).duration=' ';
+                matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).onset=' ';
+                
+                matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).duration=' ';
+                
+                matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).pmod.param=' ';
 
                 
-                %CoopChoice onsets/durations
-                if ~isnan(SR_ANTI_onsets{1})
-                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).onset= SR_ANTI_onsets{1};
+                %monoChoice onsets/durations [ANTI(coop); ANTI(defect)]
+                if ~isnan([SR_ANTI_onsets{1}; SR_ANTI_onsets{2}]);
+                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).onset= [SR_ANTI_onsets{1}; SR_ANTI_onsets{2}];
                     %matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).duration= 6;
-                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).duration= SR_run_002_Coop_RTs;
+                    %ChoiceType ParaMod vector 
+                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).pmod.param=[ones(length(SR_ANTI_onsets{1}),1); -1*ones(length(SR_ANTI_onsets{2}),1)];
                 else
                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).onset= nan(1,1);
                     %matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).duration= 6;
-                end
-                
-                %DefectChoice onsets/durations
-                if ~isnan(SR_ANTI_onsets{2})
-                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(2).onset= SR_ANTI_onsets{2};
-                    %matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(2).duration= 6;
-                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(2).duration= SR_run_002_Defect_RTs;
-                else
-                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(2).onset= nan(1,1);
-                    %matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(2).duration= 6;
                 end
                 
                 run = run+1;
@@ -236,44 +200,23 @@ for i=1:length(IDs)
            cd(SD_path);
            cd ../../Behavior/onsets_durations/IPD;
            load('SD_IPD_onsets_durations_file.mat')
-           %load RTs for variable choice duration
-            filename_coop_run_1 = dir('*SD*PRO*Coop_RT.csv');
-            filename_coop_run_2 = dir('*SD*ANTI*Coop_RT.csv');
-
-            filename_defect_run_1 = dir('*SD*PRO*Defect_RT.csv');
-            filename_defect_run_2 = dir('*SD*ANTI*Defect_RT.csv');
-
-            SD_run_001_Coop_RTs = csvread(filename_coop_run_1.name,0,1);
-            SD_run_002_Coop_RTs = csvread(filename_coop_run_2.name,0,1);
-
-            SD_run_001_Defect_RTs = csvread(filename_defect_run_1.name,0,1);
-            SD_run_002_Defect_RTs = csvread(filename_defect_run_2.name,0,1);
-            
-            if run==3 %SD ANTI - for 103 only; exclude SD1-PRO
-               matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(1).onset=' ';
-               matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(2).onset=' ';
-               matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(1).duration=' ';
-               matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(2).duration=' ';
+if run==3 %SD ANTI - for 103 only; exclude SD1-PRO
+                matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(1).onset=' ';
+                
+                matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(1).duration=' ';
+                
+                matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(1).pmod.param=' ';
 
                 
-                %CoopChoice onsets/durations
-                if ~isnan(SD_ANTI_onsets{1})
-                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(1).onset= SD_ANTI_onsets{1};
+                %monoChoice onsets/durations [ANTI(coop); ANTI(defect)]
+                if ~isnan([SD_ANTI_onsets{1}; SD_ANTI_onsets{2}]);
+                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(1).onset= [SD_ANTI_onsets{1}; SD_ANTI_onsets{2}];
                     %matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(1).duration= 6;
-                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(1).duration= SD_run_002_Coop_RTs;
+                    %ChoiceType ParaMod vector 
+                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(1).pmod.param=[ones(length(SD_ANTI_onsets{1}),1); -1*ones(length(SD_ANTI_onsets{2}),1)];
                 else
                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(1).onset= nan(1,1);
                     %matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(1).duration= 6;
-                end
-                
-                %DefectChoice onsets/durations
-                if ~isnan(SD_ANTI_onsets{2})
-                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(2).onset= SD_ANTI_onsets{2};
-                    %matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(2).duration= 6;
-                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(2).duration= SR_run_002_Defect_RTs;
-                else 
-                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(2).onset= nan(1,1);
-                    %matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(2).duration= 6;
                 end
                 %run = run+1; %ajk commented
 end
@@ -317,11 +260,60 @@ end
    end
             end
          end
-         
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%adding Choice duration based on ChoiceRT
+cd(open_path)
+cd ../../Behavior/onsets_durations/IPD;
+
+%load in csv with RT data - second column
+%SR PRO,ANTI
+filename_coop_run_1 = dir('*SR*PRO*Coop_RT.csv');
+filename_coop_run_2 = dir('*SR*ANTI*Coop_RT.csv');
+
+filename_defect_run_1 = dir('*SR*PRO*Defect_RT.csv');
+filename_defect_run_2 = dir('*SR*ANTI*Defect_RT.csv');
+
+SR_run_001_Coop_RTs = csvread(filename_coop_run_1.name,0,1);
+SR_run_002_Coop_RTs = csvread(filename_coop_run_2.name,0,1);
+
+SR_run_001_Defect_RTs = csvread(filename_defect_run_1.name,0,1);
+SR_run_002_Defect_RTs = csvread(filename_defect_run_2.name,0,1);
+
+ %run1 
+ %ajk commented
+%matlabbatch{1,1}.spm.stats.fmri_spec.sess(1,1).cond(1).pmod(1).param=[SR_run_001_Coop_RTs; SR_run_001_Defect_RTs];%pmod2 for RTpmod
+matlabbatch{1,1}.spm.stats.fmri_spec.sess(1).cond(1).duration = [SR_run_001_Coop_RTs; SR_run_001_Defect_RTs];%RT for duration
+ %run2 
+ %ajk commented
+%matlabbatch{1,1}.spm.stats.fmri_spec.sess(1,2).cond(1).pmod(1).param=[SR_run_002_Coop_RTs;SR_run_002_Defect_RTs];
+matlabbatch{1,1}.spm.stats.fmri_spec.sess(2).cond(1).duration=[SR_run_002_Coop_RTs;SR_run_002_Defect_RTs];
+
+%SD 
+cd(SD_path)
+cd ../../Behavior/onsets_durations/IPD
+%filename_coop_run_1 = dir('*SD*PRO*Coop_RT.csv');
+filename_coop_run_1 = dir('*SD*ANTI*Coop_RT.csv');
+
+%filename_defect_run_1 = dir('*SD*PRO*Defect_RT.csv');
+filename_defect_run_1 = dir('*SD*ANTI*Defect_RT.csv');
+
+SD_run_001_Coop_RTs = csvread(filename_coop_run_1.name,0,1);
+%SD_run_002_Coop_RTs = csvread(filename_coop_run_2.name,0,1);
+
+SD_run_001_Defect_RTs = csvread(filename_defect_run_1.name,0,1);
+%SD_run_002_Defect_RTs = csvread(filename_defect_run_2.name,0,1);
+
+ %run1 
+%matlabbatch{1,1}.spm.stats.fmri_spec.sess(1,3).cond(1).pmod(1).param=[SD_run_001_Coop_RTs;SD_run_001_Defect_RTs];
+matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(1).duration=[SD_run_001_Coop_RTs;SD_run_001_Defect_RTs];
+
+ %run2 %no SD run 2 for 103
+%matlabbatch{1,1}.spm.stats.fmri_spec.sess(1,4).cond(1).pmod(1).param=[SD_run_002_Coop_RTs;SD_run_002_Defect_RTs];
+%matlabbatch{1,1}.spm.stats.fmri_spec.sess(4).cond(1).duration = [SD_run_002_Coop_RTs;SD_run_002_Defect_RTs];         
          %% creating the SPM with the model
            if FLAG
             cd(outpath)
-            save([ subsname(1,1).name(end-2:end) '_1st_level_analysis_Choice_2sessions_ARTTHRESH_CompCor.mat'],'matlabbatch')
+            save([ subsname(1,1).name(end-2:end) '_1st_level_monoChoice_2sessions_RT.mat'],'matlabbatch')
             spm_jobman('run',matlabbatch);
            end
      end
@@ -344,7 +336,7 @@ if FLAG
             
             cd(outpath)
             load([outpath 'SPM.mat'])
-           SPM=add_contrasts_IPD_2sessions_bichoice_basic(SPM, size(R,2), subsname(1,1).name);
+           SPM = add_contrasts_IPD_2sessions_monochoice(SPM, size(R,2), subsname(1,1).name)
         else
             disp('Contrasts already exist!');
         end

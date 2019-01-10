@@ -10,8 +10,8 @@ sess='SR';
 %subject folders
 cd(subjdir)
 % subsname=dir('Sub124*');
- IDs = {'Sub102*'; 'Sub103*'; 'Sub104*'; 'Sub105*'; 'Sub106*'; 'Sub107*'; 'Sub108*'; 'Sub112*'; 'Sub113*'; 'Sub114*'; 'Sub115*'; 'Sub117*'; 'Sub118*'; 'Sub119*'; 'Sub120*';'Sub121*'; 'Sub122*'; 'Sub123*'; 'Sub124*'; 'Sub126*'; 'Sub128*';};
-%IDs = {'Sub106*';'Sub108*';'Sub114*';'Sub115*';'Sub119*';'Sub121*';};
+%IDs = {'Sub102*'; 'Sub103*'; 'Sub104*'; 'Sub105*'; 'Sub106*'; 'Sub107*'; 'Sub108*'; 'Sub112*'; 'Sub113*'; 'Sub114*'; 'Sub115*'; 'Sub117*'; 'Sub118*'; 'Sub119*'; 'Sub120*';'Sub121*'; 'Sub122*'; 'Sub123*'; 'Sub124*'; 'Sub126*'; 'Sub128*';};
+IDs = {'Sub106*'; 'Sub108*';}; %Change be below as well! (within for-loop)! 
 session_name='IPD';
 Excl_SDPRO_IDs = {'Sub103'};
 Excl_SRANTI_IDs = {'Sub107';'Sub118';'Sub124';};
@@ -26,7 +26,7 @@ FLAG=0;
 
 for i=1:length(IDs)
     cd(subjdir)
-     IDs = {'Sub102*'; 'Sub103*'; 'Sub104*'; 'Sub105*'; 'Sub106*'; 'Sub107*'; 'Sub108*'; 'Sub112*'; 'Sub113*'; 'Sub114*'; 'Sub115*'; 'Sub117*'; 'Sub118*'; 'Sub119*'; 'Sub120*';'Sub121*'; 'Sub122*'; 'Sub123*'; 'Sub124*'; 'Sub126*'; 'Sub128*';};
+    IDs = {'Sub106*'; 'Sub108*';};    
     Excl_SDPRO_IDs = {'Sub103'};
     Excl_SRANTI_IDs = {'Sub107';'Sub118';'Sub124';};
     Excl_SRSDPRO_IDs = {'Sub112';'Sub120';'Sub122';};

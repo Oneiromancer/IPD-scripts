@@ -6,22 +6,20 @@ subsname=dir('Sub*');
 session_name='IPD';
 sess='SR';
 
-OUTPUT_FLDR=['E:\AdamData\SANS Data\2ND LEVELS\IPD\Choice_Models\Monochoice_basic_model'];
-%monochoice basic:
+OUTPUT_FLDR=['E:\AdamData\SANS Data\2ND LEVELS\IPD\Choice_Models\Monochoice_VariableDur_model'];
+%monochoice (basic or variableDur):
 dataFolders={'CoopVSDefect', 'DefectVSCoop','ChoiceALLVSBaseline', 'CoopVSDefect_SR', 'DefectVSCoop_SR', 'ChoiceALLVSBaseline_SR','CoopVSDefect_SD', 'DefectVSCoop_SD', 'ChoiceALLVSBaseline_SD'};
-ConNum={'01','02','03','04','05','06','07','08','09'};
 
-%bichoice basic:
+%bichoice (basic OR VariableDur)
 %dataFolders = {'CoopVSDefect','DefectVSCoop','ChoiceALLVSBaseline','CoopVSDefect_SR','DefectVSCoop_SR','ChoiceALLVSBaseline_SR','CoopVSDefect_SD','DefectVSCoop_SD','ChoiceALLVSBaseline_SD', 'CoopVSBaseline', 'DefectVSBaseline', 'CoopVSBaseline_SR', 'DefectVSBaseline_SR', 'CoopVSBaseline_SD', 'DefectVSBaseline_SD'};
-%ConNum={'01','02','03','04','05','06','07','08','09','10','11','12','13','14','15'};
-
+ConNum={'01','02','03','04','05','06','07','08','09'};
 
 
 for i=1:length(subsname)
     
     if (strcmp(subsname(i,1).name(1:3),'Sub') && subsname(i,1).isdir==1)  
                                                                                     %change this 
-        open_path=[subjdir '\' subsname(i,1).name '\' sess '\fMRI\' session_name '\1st_level_analysis_Choice_2sessions_monochoice\']; %from where to open files for processing in subject folders
+        open_path=[subjdir '\' subsname(i,1).name '\' sess '\fMRI\' session_name '\1st_level_analysis_Choice_2sessions_monochoice_RT\']; %from where to open files for processing in subject folders
     if isdir(open_path)
         cd(open_path);
 %       

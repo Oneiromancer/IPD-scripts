@@ -243,10 +243,10 @@ for i=1:length(IDs)
             filename_defect_run_1 = dir('*SD*PRO*Defect_RT.csv');
             filename_defect_run_2 = dir('*SD*ANTI*Defect_RT.csv');
 
-            SD_run_001_Coop_RTs = csvread(filename_coop_run_1.name,0,1);
+            %SD_run_001_Coop_RTs = csvread(filename_coop_run_1.name,0,1);
             SD_run_002_Coop_RTs = csvread(filename_coop_run_2.name,0,1);
 
-            SD_run_001_Defect_RTs = csvread(filename_defect_run_1.name,0,1);
+            %SD_run_001_Defect_RTs = csvread(filename_defect_run_1.name,0,1);
             SD_run_002_Defect_RTs = csvread(filename_defect_run_2.name,0,1);
             
             if run==3 %SD ANTI - for 103 only; exclude SD1-PRO
@@ -270,7 +270,7 @@ for i=1:length(IDs)
                 if ~isnan(SD_ANTI_onsets{2})
                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(2).onset= SD_ANTI_onsets{2};
                     %matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(2).duration= 6;
-                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(2).duration= SR_run_002_Defect_RTs;
+                    matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(2).duration= SD_run_002_Defect_RTs;
                 else 
                     matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(2).onset= nan(1,1);
                     %matlabbatch{1,1}.spm.stats.fmri_spec.sess(3).cond(2).duration= 6;
@@ -321,7 +321,7 @@ end
          %% creating the SPM with the model
            if FLAG
             cd(outpath)
-            save([ subsname(1,1).name(end-2:end) '_1st_level_analysis_Choice_2sessions_ARTTHRESH_CompCor.mat'],'matlabbatch')
+            save([ subsname(1,1).name(end-2:end) '_1st_level_analysis_basicChoice_VariableDur.mat'],'matlabbatch')
             spm_jobman('run',matlabbatch);
            end
      end
